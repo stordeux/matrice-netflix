@@ -20,8 +20,8 @@
 <script>
 document.getElementById("csv").href = API_URL + "?action=csv";
 
-// 1 = j'aime (rose clair), 2 = j'aime beaucoup (rouge).
-const couleur = n => `hsl(357, 70%, ${n >= 2 ? 62 : 85}%)`;
+// 1 = je n'aime pas (gris), 2 = j'aime (rose clair), 3 = j'aime beaucoup (rouge).
+const couleur = n => n <= 1 ? "hsl(220, 10%, 82%)" : `hsl(357, 70%, ${n >= 3 ? 62 : 85}%)`;
 
 (async () => {
   const { films, lignes } = await apiGet({ action: "matrice" });

@@ -27,7 +27,7 @@
   <!-- Phase 2 : noter le catalogue -->
   <form id="phase2" class="card" hidden>
     <h2>Phase 2 — Donnez votre avis sur chaque film ou série</h2>
-    <p>Pour chaque film ou série : « pas vu », « j'aime » ou « j'aime beaucoup ». Les titres pas vus sont les cases inconnues de la matrice.
+    <p>Pour chaque film ou série : « pas vu », « je n'aime pas », « j'aime » ou « j'aime beaucoup ». Les titres pas vus sont les cases inconnues de la matrice.
       Vous pouvez revenir modifier vos réponses depuis le même navigateur.</p>
     <div id="liste"></div>
     <button type="submit">Enregistrer mes notes</button>
@@ -67,8 +67,8 @@ $("phase1").addEventListener("submit", async ev => {
 });
 
 // ---------- Phase 2 ----------
-const notes = {};      // film -> 1 (j'aime), 2 (j'aime beaucoup) ou null (pas vu)
-const CHOIX = [[null, "pas vu"], [1, "j'aime"], [2, "j'aime beaucoup"]];
+const notes = {};      // titre -> 1 (je n'aime pas), 2 (j'aime), 3 (j'aime beaucoup) ou null (pas vu)
+const CHOIX = [[null, "pas vu"], [1, "je n'aime pas"], [2, "j'aime"], [3, "j'aime beaucoup"]];
 
 function ligneFilm(film) {
   const div = document.createElement("div");
