@@ -45,7 +45,8 @@ button:disabled { opacity: .5; cursor: default; }
   border: 1px solid var(--line); font-weight: 500;
 }
 .notes button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-.notes button.vu { width: auto; padding: 6px 10px; color: var(--muted); }
+.notes button.vu, .notes button.avis { width: auto; padding: 6px 10px; }
+.notes button.vu { color: var(--muted); }
 .notes button.vu.on { background: var(--muted); border-color: var(--muted); }
 .wrap { overflow-x: auto; }
 table.mat { border-collapse: collapse; font-size: .75rem; }

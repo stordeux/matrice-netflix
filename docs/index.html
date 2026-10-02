@@ -26,9 +26,9 @@
 
   <!-- Phase 2 : noter le catalogue -->
   <form id="phase2" class="card" hidden>
-    <h2>Phase 2 — Notez les films que vous avez vus</h2>
-    <p>De 1 (je n'ai pas aimé) à 5 (j'ai adoré). Laissez « pas vu » pour les autres : ce sont les cases inconnues de la matrice.
-      Vous pouvez revenir modifier vos notes depuis le même navigateur.</p>
+    <h2>Phase 2 — Donnez votre avis sur chaque film</h2>
+    <p>Pour chaque film : « pas vu », « j'aime » ou « j'aime beaucoup ». Les films pas vus sont les cases inconnues de la matrice.
+      Vous pouvez revenir modifier vos réponses depuis le même navigateur.</p>
     <div id="liste"></div>
     <button type="submit">Enregistrer mes notes</button>
     <div class="msg" id="msg2"></div>
@@ -67,7 +67,8 @@ $("phase1").addEventListener("submit", async ev => {
 });
 
 // ---------- Phase 2 ----------
-const notes = {};      // film -> 1..5 ou null (pas vu)
+const notes = {};      // film -> 1 (j'aime), 2 (j'aime beaucoup) ou null (pas vu)
+const CHOIX = [[null, "pas vu"], [1, "j'aime"], [2, "j'aime beaucoup"]];
 
 function ligneFilm(film) {
   const div = document.createElement("div");
@@ -76,12 +77,12 @@ function ligneFilm(film) {
   nom.textContent = film;
   const boutons = document.createElement("div");
   boutons.className = "notes";
-  const valeurs = [null, 1, 2, 3, 4, 5];
-  const btns = valeurs.map(v => {
+  const valeurs = CHOIX.map(c => c[0]);
+  const btns = CHOIX.map(([v, texte]) => {
     const b = document.createElement("button");
     b.type = "button";
-    b.textContent = v === null ? "pas vu" : v;
-    if (v === null) b.className = "vu";
+    b.textContent = texte;
+    b.className = v === null ? "vu" : "avis";
     b.addEventListener("click", () => { notes[film] = v; maj(); });
     boutons.appendChild(b);
     return b;
@@ -99,7 +100,7 @@ $("phase2").addEventListener("submit", async ev => {
     const r = await apiPost({ type: "notes", uid, notes });
     if (r.ok) {
       const n = Object.values(notes).filter(v => v !== null).length;
-      message($("msg2"), `Merci ! ${n} note(s) enregistrée(s).`, true);
+      message($("msg2"), `Merci ! ${n} avis enregistré(s).`, true);
     } else message($("msg2"), r.erreur, false);
   } catch (e) { message($("msg2"), "Erreur réseau, réessayez.", false); }
   btn.disabled = false;

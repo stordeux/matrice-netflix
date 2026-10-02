@@ -13,7 +13,10 @@ import numpy as np
 
 
 def charger(source):
-    """Renvoie (M, films) : M de taille (étudiants x films), np.nan = note inconnue."""
+    """Renvoie (M, films) : M de taille (étudiants x films).
+
+    1 = j'aime, 2 = j'aime beaucoup, np.nan = pas vu (inconnue).
+    """
     if source.startswith("http"):
         texte = urllib.request.urlopen(source).read().decode("utf-8")
     else:
@@ -66,7 +69,7 @@ if __name__ == "__main__":
 
     mu = np.nanmean(M)
     U, V = als(M - mu, r=2, lam=1.0)
-    P = np.clip(mu + U @ V.T, 1, 5)
+    P = np.clip(mu + U @ V.T, 1, 2)
     print("\nRecommandation pour le premier étudiant :")
     inconnus = np.where(np.isnan(M[0]))[0]
     for j in inconnus[np.argsort(-P[0, inconnus])][:5]:
