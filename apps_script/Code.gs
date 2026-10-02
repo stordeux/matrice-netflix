@@ -129,10 +129,10 @@ function doPost(e) {
     if (d.type === 'propositions') {
       if (p !== 1) return json_({ ok: false, erreur: 'La phase 1 est fermée.' });
       const films = (d.films || []).map(f => String(f).trim().slice(0, 120)).filter(Boolean);
-      if (films.length !== 3) return json_({ ok: false, erreur: 'Il faut exactement 3 films.' });
+      if (films.length !== 3) return json_({ ok: false, erreur: 'Il faut exactement 3 titres.' });
       const sh = feuille_('Propositions');
       const deja = sh.getDataRange().getValues().some(r => r[1] === uid);
-      if (deja) return json_({ ok: false, erreur: 'Vous avez déjà proposé vos 3 films.' });
+      if (deja) return json_({ ok: false, erreur: 'Vous avez déjà proposé vos 3 titres.' });
       films.forEach(f => sh.appendRow([t, uid, f]));
       return json_({ ok: true });
     }
