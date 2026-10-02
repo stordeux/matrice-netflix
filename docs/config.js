@@ -1,5 +1,5 @@
 // URL de l'application Web Apps Script (Déployer > Gérer les déploiements > URL).
-const API_URL = "COLLER_ICI_L_URL_https://script.google.com/macros/s/.../exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbw9d7yYGpT4g1UQO-6006qFOjSkFOdPlXSwqQJtIOx7vPU4Cc4ca8KIGz8jTlpi-uHg5A/exec";
 
 // Identifiant anonyme, créé une fois et conservé dans le navigateur.
 function getUid() {
