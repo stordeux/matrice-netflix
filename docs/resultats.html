@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matrice Netflix — résultats</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <h1>La <span>matrice</span> en direct</h1>
+  <p class="sub">Lignes : étudiants (anonymes). Colonnes : films. Case vide : film non vu, c'est-à-dire une inconnue à prédire.</p>
+
+  <div class="card stats" id="stats">Chargement…</div>
+  <div class="card wrap"><table class="mat" id="mat"></table></div>
+  <p><a href="index.html">← Retour à la collecte</a> · <a id="csv" href="#">Télécharger le CSV</a></p>
+</main>
+
+<script src="config.js"></script>
+<script>
+document.getElementById("csv").href = API_URL + "?action=csv";
+
+// Couleur d'une note 1..5 : du clair au rouge.
+const couleur = n => `hsl(357, 70%, ${88 - (n - 1) * 12}%)`;
+
+(async () => {
+  const { films, lignes } = await apiGet({ action: "matrice" });
+  const m = lignes.length, n = films.length;
+  const connues = lignes.flat().filter(v => v !== null).length;
+  document.getElementById("stats").innerHTML =
+    `<div><b>${m}</b>étudiants</div><div><b>${n}</b>films</div>` +
+    `<div><b>${connues}</b>notes connues</div>` +
+    `<div><b>${m * n ? (100 * connues / (m * n)).toFixed(1) : 0} %</b>de la matrice remplie</div>`;
+
+  const t = document.getElementById("mat");
+  const tete = t.insertRow();
+  tete.appendChild(document.createElement("th"));
+  films.forEach(f => {
+    const th = document.createElement("th");
+    th.className = "col"; th.textContent = f; tete.appendChild(th);
+  });
+  lignes.forEach((ligne, i) => {
+    const tr = t.insertRow();
+    const th = document.createElement("th");
+    th.className = "row"; th.textContent = "#" + (i + 1);
+    tr.appendChild(th);
+    ligne.forEach(v => {
+      const td = tr.insertCell();
+      if (v !== null) { td.textContent = v; td.style.background = couleur(v); td.style.color = "#1d1d1f"; }
+    });
+  });
+})().catch(() => { document.getElementById("stats").textContent = "Impossible de joindre le serveur."; });
+</script>
+</body>
+</html>
