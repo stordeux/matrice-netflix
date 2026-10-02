@@ -72,6 +72,7 @@ function notes_() {
     if (note === '' || note === null) delete d[uid][film];
     else d[uid][film] = Number(note);
   });
+  Object.keys(d).forEach(u => { if (!Object.keys(d[u]).length) delete d[u]; });
   return d;
 }
 
