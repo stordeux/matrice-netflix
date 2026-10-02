@@ -15,19 +15,19 @@
 
   <!-- Phase 1 : proposer 3 films -->
   <form id="phase1" class="card" hidden>
-    <h2>Phase 1 — Proposez 3 films</h2>
-    <p>Donnez trois films que vous avez vus (aimés ou non). Ils serviront à construire le catalogue que toute la classe notera ensuite.</p>
-    <label for="f1">Film 1</label><input type="text" id="f1" required maxlength="120">
-    <label for="f2">Film 2</label><input type="text" id="f2" required maxlength="120">
-    <label for="f3">Film 3</label><input type="text" id="f3" required maxlength="120">
+    <h2>Phase 1 — Proposez 3 films ou séries</h2>
+    <p>Donnez trois films ou séries que vous avez vus (aimés ou non). Ils serviront à construire le catalogue que toute la classe notera ensuite.</p>
+    <label for="f1">Film ou série 1</label><input type="text" id="f1" required maxlength="120">
+    <label for="f2">Film ou série 2</label><input type="text" id="f2" required maxlength="120">
+    <label for="f3">Film ou série 3</label><input type="text" id="f3" required maxlength="120">
     <button type="submit">Envoyer</button>
     <div class="msg" id="msg1"></div>
   </form>
 
   <!-- Phase 2 : noter le catalogue -->
   <form id="phase2" class="card" hidden>
-    <h2>Phase 2 — Donnez votre avis sur chaque film</h2>
-    <p>Pour chaque film : « pas vu », « j'aime » ou « j'aime beaucoup ». Les films pas vus sont les cases inconnues de la matrice.
+    <h2>Phase 2 — Donnez votre avis sur chaque film ou série</h2>
+    <p>Pour chaque film ou série : « pas vu », « j'aime » ou « j'aime beaucoup ». Les titres pas vus sont les cases inconnues de la matrice.
       Vous pouvez revenir modifier vos réponses depuis le même navigateur.</p>
     <div id="liste"></div>
     <button type="submit">Enregistrer mes notes</button>
@@ -55,12 +55,12 @@ $("phase1").addEventListener("submit", async ev => {
   ev.preventDefault();
   const films = ["f1", "f2", "f3"].map(id => $(id).value.trim());
   const norm = films.map(f => f.toLowerCase());
-  if (new Set(norm).size < 3) return message($("msg1"), "Donnez trois films différents.", false);
+  if (new Set(norm).size < 3) return message($("msg1"), "Donnez trois titres différents.", false);
   const btn = ev.submitter; btn.disabled = true;
   try {
     const r = await apiPost({ type: "propositions", uid, films });
     if (r.ok) {
-      message($("msg1"), "Merci, vos 3 films sont enregistrés !", true);
+      message($("msg1"), "Merci, vos 3 titres sont enregistrés !", true);
       ["f1", "f2", "f3"].forEach(id => $(id).disabled = true);
     } else { message($("msg1"), r.erreur, false); btn.disabled = false; }
   } catch (e) { message($("msg1"), "Erreur réseau, réessayez.", false); btn.disabled = false; }

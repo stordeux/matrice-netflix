@@ -9,7 +9,7 @@
 <body>
 <main>
   <h1>La <span>matrice</span> en direct</h1>
-  <p class="sub">Lignes : étudiants (anonymes). Colonnes : films. Case vide : film non vu, c'est-à-dire une inconnue à prédire.</p>
+  <p class="sub">Lignes : étudiants (anonymes). Colonnes : films et séries. Case vide : titre non vu, c'est-à-dire une inconnue à prédire.</p>
 
   <div class="card stats" id="stats">Chargement…</div>
   <div class="card wrap"><table class="mat" id="mat"></table></div>
@@ -28,7 +28,7 @@ const couleur = n => `hsl(357, 70%, ${n >= 2 ? 62 : 85}%)`;
   const m = lignes.length, n = films.length;
   const connues = lignes.flat().filter(v => v !== null).length;
   document.getElementById("stats").innerHTML =
-    `<div><b>${m}</b>étudiants</div><div><b>${n}</b>films</div>` +
+    `<div><b>${m}</b>étudiants</div><div><b>${n}</b>films et séries</div>` +
     `<div><b>${connues}</b>notes connues</div>` +
     `<div><b>${m * n ? (100 * connues / (m * n)).toFixed(1) : 0} %</b>de la matrice remplie</div>`;
 
