@@ -37,7 +37,7 @@ function initialiser() {
  */
 function construireCatalogue() {
   const v = feuille_('Propositions').getDataRange().getValues().slice(1);
-  const cle = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+  const cle = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
     .replace(/^(the|le|la|les|l')\s*/, '').replace(/[^a-z0-9]/g, '');
   const groupes = {};
   v.forEach(r => {
