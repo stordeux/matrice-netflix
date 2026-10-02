@@ -54,6 +54,47 @@ function construireCatalogue() {
   if (lignes.length) sh.getRange(2, 1, lignes.length, 2).setValues(lignes);
 }
 
+/** Nombre de titres retenus automatiquement et classiques ajoutés d'office. */
+const TAILLE_CATALOGUE = 50;
+const CLASSIQUES = [];
+const DATE_PHASE2 = '2026-10-09T08:00:00+02:00';
+
+/**
+ * Passage automatique en phase 2 : catalogue = titres les plus proposés
+ * (+ CLASSIQUES), puis Config!B1 = 2. Un e-mail récapitulatif est envoyé.
+ */
+function passerEnPhase2() {
+  construireCatalogue();
+  const brut = ss().getSheetByName('Catalogue_brut').getDataRange().getValues().slice(1);
+  const titres = [];
+  const vus = new Set();
+  CLASSIQUES.concat(brut.map(r => r[0])).forEach(t => {
+    t = String(t).trim();
+    if (t && !vus.has(t.toLowerCase()) && titres.length < TAILLE_CATALOGUE) {
+      vus.add(t.toLowerCase());
+      titres.push(t);
+    }
+  });
+  const cat = feuille_('Catalogue', ['film']);
+  cat.clear();
+  cat.appendRow(['film']);
+  if (titres.length) cat.getRange(2, 1, titres.length, 1).setValues(titres.map(t => [t]));
+  feuille_('Config').getRange('B1').setValue(2);
+  MailApp.sendEmail(Session.getEffectiveUser().getEmail(),
+    'Matrice Netflix : phase 2 ouverte',
+    titres.length + ' titres dans le catalogue :\n\n' + titres.join('\n') +
+    '\n\nVous pouvez corriger la feuille « Catalogue » (doublons, fautes) avant que les étudiants ne notent.\n' +
+    ss().getUrl());
+}
+
+/** À exécuter une fois : programme passerEnPhase2 pour DATE_PHASE2. */
+function programmerPhase2() {
+  ScriptApp.getProjectTriggers()
+    .filter(t => t.getHandlerFunction() === 'passerEnPhase2')
+    .forEach(t => ScriptApp.deleteTrigger(t));
+  ScriptApp.newTrigger('passerEnPhase2').timeBased().at(new Date(DATE_PHASE2)).create();
+}
+
 function phase_() {
   return Number(feuille_('Config').getRange('B1').getValue()) || 0;
 }

@@ -29,6 +29,7 @@ python/matrice_netflix.py  lecture du CSV + complétion par ALS
 |---|---|
 | Phase 1 | `Config!B1 = 1`. Les étudiants proposent 3 films. |
 | Entre les phases | Exécuter `construireCatalogue`. La feuille `Catalogue_brut` liste les titres regroupés, triés par popularité. Fusionner les doublons restants, puis copier 40 à 60 titres dans `Catalogue` (colonne A, sous l'en-tête `film`). Ajouter quelques grands classiques pour augmenter les recoupements. |
+| Bascule automatique | Exécuter une fois `programmerPhase2` : le 9 octobre 2026 à 8 h, `passerEnPhase2` remplit `Catalogue` avec les 50 titres les plus proposés (plus `CLASSIQUES`), met `Config!B1 = 2` et envoie un e-mail récapitulatif. Date et taille réglables en tête de ces fonctions. |
 | Phase 2 | `Config!B1 = 2`. Pour chaque film, les étudiants choisissent « pas vu » (case vide), « je n'aime pas » (codé 1), « j'aime » (codé 2) ou « j'aime beaucoup » (codé 3). Ils peuvent revenir modifier leurs réponses. |
 | Fin | `Config!B1 = 0` ferme la collecte. Télécharger le CSV depuis `resultats.html`. |
 
